@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/studentimg"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/profilepict" />
+
+        <TextView
+            android:id="@+id/lblStudentName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_toRightOf="@+id/studentimg"
+            android:text="Name: "
+            android:textColor="#000000"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/studentName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_toRightOf="@+id/lblStudentName"
+            android:text="Rajeswari Subramanian"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/lblemail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lblStudentName"
+            android:layout_margin="5dp"
+            android:layout_toRightOf="@+id/studentimg"
+            android:text="Email:"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txtemail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/studentName"
+            android:layout_margin="5dp"
+            android:layout_toRightOf="@+id/lblemail"
+            android:text="agni999@gmail.com"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/lblphone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lblemail"
+            android:layout_margin="5dp"
+            android:layout_toRightOf="@+id/studentimg"
+            android:text="Phone:"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/studentphone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtemail"
+            android:layout_margin="5dp"
+            android:layout_toRightOf="@+id/lblphone"
+            android:text="744-906-6644"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/lbltotcredits"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lblphone"
+            android:layout_margin="5dp"
+            android:layout_toRightOf="@+id/studentimg"
+            android:text="Start Date:"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txtTotCredits"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/studentphone"
+            android:layout_margin="5dp"
+            android:layout_toRightOf="@+id/lbltotcredits"
+            android:text="0"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+    <TextView
+        android:id="@+id/lblEnrolledCourses"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:text="Enrolled Courses"
+        android:background="@color/purple_500"
+        android:textSize="25sp"
+        android:gravity="center_horizontal"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerEnrolledCourseSessions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lblEnrolledCourses"
+        android:padding="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_margin="5dp"/>
+
+</LinearLayout>
