@@ -15,7 +15,12 @@ import com.srs.lms.adapter.CourseSessionsRecyclerAdapter
 import com.srs.lms.model.CourseSession
 
 
+
 class CourseSearchResultFragment : Fragment() {
+
+
+
+
     lateinit var recyclerCourseSessions: RecyclerView
     lateinit var layoutManager: RecyclerView.LayoutManager
     lateinit var progressBar: ProgressBar
@@ -68,12 +73,35 @@ class CourseSearchResultFragment : Fragment() {
         "2021-03-05",	"2021-04-09")
 
     )
+
+
+    private var courseName:String?=null
+    private var courseCategory:String?=null
+    private var courseCredits:String?=null
+    private var courseStartDate:String?=null
+    private var courseEndDate:String?=null
+
+
+
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         val view =inflater.inflate(R.layout.fragment_course_search_result, container, false)
+        courseName=arguments?.getString("courseName")
+        courseCategory=arguments?.getString("courseCategory")
+        courseCredits=arguments?.getString("courseCredits")
+        courseStartDate=arguments?.getString("courseStartDate")
+        courseEndDate=arguments?.getString("courseEndDate")
+
+        println("CourseSearchResultFragment: $courseName")
+        println("CourseSearchResultFragment: $courseCategory")
+        println("CourseSearchResultFragment: $courseCredits")
+        println("CourseSearchResultFragment: $courseStartDate")
+        println("CourseSearchResultFragment: $courseEndDate")
         setHasOptionsMenu(true)
         recyclerCourseSessions= view.findViewById(R.id.recyclerCourseSessions)
         progressBar=view.findViewById(R.id.progressBar)
@@ -84,6 +112,22 @@ class CourseSearchResultFragment : Fragment() {
         recyclerCourseSessions.adapter = recyclerAdapter
         recyclerCourseSessions.layoutManager = layoutManager
         return view
+    }
+    companion object {
+        /**
+         * Use this factory method to create a new instance of
+         * this fragment using the provided parameters.
+         *
+         * @param param1 Parameter 1.
+         * @param param2 Parameter 2.
+         * @return A new instance of fragment sample.
+         */
+        // TODO: Rename and change types and number of parameters
+        @JvmStatic
+        fun newInstance() =
+            CourseSearchResultFragment().apply {
+
+            }
     }
 
 }

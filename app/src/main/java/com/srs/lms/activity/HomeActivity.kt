@@ -1,26 +1,68 @@
 package com.srs.lms.activity
 
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.ServiceConnection
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.IBinder
 import android.view.MenuItem
+import android.view.View
 import android.widget.FrameLayout
+import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import com.srs.lms.R
+import com.srs.lms.`interface`.CourseSearchDataCommunicator
 import com.srs.lms.fragment.AboutUsFragment
 import com.srs.lms.fragment.CourseSearchFragment
+import com.srs.lms.fragment.CourseSearchResultFragment
 import com.srs.lms.fragment.DashBoardFragment
+import com.srs.lms.service.CurrentTimeService
+import java.security.KeyStore
 
-class HomeActivity : AppCompatActivity() {
+class HomeActivity : AppCompatActivity(), CourseSearchDataCommunicator {
     lateinit var drawerLayout: DrawerLayout
     lateinit var coordinatorLayout: CoordinatorLayout
     lateinit var toolbar: Toolbar
     lateinit var frameLayout: FrameLayout
     lateinit var navigationView: NavigationView
+    //lateinit var txtCurrentTime: TextView
     var previousMenuItem: MenuItem?=null
+    /*
+    var myService:CurrentTimeService?=null
+    var isBound=false
+
+    private val myConnection=object: ServiceConnection {
+        override fun onServiceConnected(className:ComponentName,service: IBinder)
+        {
+            val binder=service as CurrentTimeService.MyLocalBinder
+            myService=binder.getService()
+            isBound=true
+        }
+
+        override fun onServiceDisconnected(name: ComponentName?) {
+            isBound=false
+
+        }
+    }
+
+    override fun onStart()
+    {
+        super.onStart()
+        val timeIntent= Intent(this,CurrentTimeService::class.java)
+        bindService(timeIntent,myConnection, Context.BIND_AUTO_CREATE)
+    }
+    override fun onStop()
+    {
+        super.onStop()
+        unbindService(myConnection)
+    }
+    */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -29,6 +71,11 @@ class HomeActivity : AppCompatActivity() {
         toolbar=findViewById(R.id.toolbar)
         frameLayout=findViewById(R.id.frameLayout)
         navigationView=findViewById(R.id.navigationView)
+    //   txtCurrentTime=findViewById(R.id.txtCurrentTime)
+        //  ***********************************8
+
+
+        // ******************************
         setUpToolBar()
         openDashboard()
         val actionBarDrawerToggle= ActionBarDrawerToggle(this@HomeActivity,drawerLayout,
@@ -85,6 +132,7 @@ class HomeActivity : AppCompatActivity() {
         supportActionBar?.setHomeButtonEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
+
     fun openDashboard()
     {
         val fragment= DashBoardFragment()
@@ -104,4 +152,33 @@ class HomeActivity : AppCompatActivity() {
             else ->super.onBackPressed()
         }
     }
+
+    override fun sendCourseFilterData(
+        courseName: String,
+        courseCategory: String,
+        courseCredits: String,
+        courseStartDate: String,
+        courseEndDate: String
+    ) {
+      val bundle=Bundle()
+        bundle.putString("courseName",courseName)
+        bundle.putString("courseCategory",courseCategory)
+        bundle.putString("courseCredits",courseCredits)
+        bundle.putString("courseStartDate",courseStartDate)
+        bundle.putString("courseEndDate",courseEndDate)
+        val courseSearchResultFragment=CourseSearchResultFragment.newInstance(
+        )
+        val transaction=supportFragmentManager.beginTransaction()
+        courseSearchResultFragment.arguments=bundle
+        transaction.replace(R.id.frameLayout,courseSearchResultFragment).commit()
+    }
+
+   /* fun showTime(view: View)
+    {
+        val currentTime=myService?.getCurrentTime()
+        txtCurrentTime.text=currentTime
+
+    }
+
+    */
 }

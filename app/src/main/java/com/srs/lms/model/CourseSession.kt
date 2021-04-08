@@ -1,8 +1,12 @@
 package com.srs.lms.model
 
+data class CourseSessions
+    (
+    val results:List<CourseSession>
+            )
 
 data class CourseSession(
-var sessionId:Int,
+var id:Int,
 var courseId:Int,
 var courseName:String,
 var courseCategory:String,

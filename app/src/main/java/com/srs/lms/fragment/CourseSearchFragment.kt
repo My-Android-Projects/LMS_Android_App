@@ -1,23 +1,21 @@
 package com.srs.lms.fragment
 
 import android.app.Activity
-
-import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
-import android.widget.Button
-import android.widget.EditText
+import android.widget.*
+import android.widget.AdapterView.OnItemSelectedListener
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.getSystemService
+import androidx.appcompat.widget.AppCompatSpinner
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import com.srs.lms.R
+import com.srs.lms.*
+import com.srs.lms.`interface`.CourseSearchDataCommunicator
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -30,13 +28,32 @@ private const val ARG_PARAM2 = "param2"
  * Use the [CourseSearchFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class CourseSearchFragment : Fragment() {
+class CourseSearchFragment : Fragment(){
     val REQUEST_CODE = 11 // Used to identify the result
 
 
     lateinit var btnCourseSearch: Button
     lateinit var txtStartDate: EditText
     lateinit var txtEndDate:EditText
+    lateinit var txtCourseName: EditText
+    lateinit var lstCourseCategory: Spinner
+    lateinit var lstCourseCredits:Spinner
+    lateinit var courseSearchDataCommunicator: CourseSearchDataCommunicator
+    lateinit var txtCourseCategory:String
+    lateinit var txtCourseCredits:String
+
+    private var param1: String? = null
+    private var param2: String? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            param1 = it.getString(ARG_PARAM1)
+            param2 = it.getString(ARG_PARAM2)
+        }
+    }
+
+
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,18 +65,56 @@ class CourseSearchFragment : Fragment() {
         btnCourseSearch=view.findViewById(R.id.btn_Search)
         txtStartDate=view.findViewById(R.id.txtStartDate)
         txtEndDate=view.findViewById(R.id.txtEndDate)
-        btnCourseSearch.setOnClickListener(){
+        txtCourseName=view.findViewById(R.id.txtCourseName)
+        lstCourseCategory=view.findViewById(R.id.lstCategory)
+        lstCourseCredits=view.findViewById(R.id.lstCredits)
+        courseSearchDataCommunicator=activity as CourseSearchDataCommunicator
 
-            getFragmentManager()?.beginTransaction()
+
+        // lstCourseCategory?.adapter = ArrayAdapter(activity?.applicationContext, R.layout.support_simple_spinner_dropdown_item, types) as SpinnerAdapter
+        lstCourseCategory?.onItemSelectedListener = object :AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                // println("erreur")
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                 txtCourseCategory = parent?.getItemAtPosition(position).toString()
+                Toast.makeText(activity,txtCourseCategory, Toast.LENGTH_LONG).show()
+                println(txtCourseCategory)
+            }
+
+        }
+
+        lstCourseCredits?.onItemSelectedListener = object :AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                // println("erreur")
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                txtCourseCredits = parent?.getItemAtPosition(position).toString()
+                Toast.makeText(activity,txtCourseCredits, Toast.LENGTH_LONG).show()
+                println(txtCourseCredits)
+            }
+
+        }
+        btnCourseSearch.setOnClickListener(){
+            courseSearchDataCommunicator.sendCourseFilterData(
+                txtCourseName.text.toString(),
+                txtCourseCategory,
+                txtCourseCredits,
+                txtStartDate.text.toString(),
+                txtEndDate.text.toString()
+            )
+            /*getFragmentManager()?.beginTransaction()
                 ?.replace(R.id.frameLayout, CourseSearchResultFragment())
                 ?.addToBackStack("Course Search")
                 ?.commit()
-
+               */
 
            }
 
         txtStartDate.setOnClickListener(View.OnClickListener { // create the datePickerFragment
-            txtStartDate.showSoftInputOnFocus=false
+            txtStartDate.showSoftInputOnFocus = false
 
             val newFragment: DatePickerFragment = DatePickerFragment("StartDate")
             // set the targetFragment to receive the results, specifying the request code
@@ -71,7 +126,7 @@ class CourseSearchFragment : Fragment() {
         })
 
         txtEndDate.setOnClickListener(View.OnClickListener { // create the datePickerFragment
-            txtEndDate.showSoftInputOnFocus=false
+            txtEndDate.showSoftInputOnFocus = false
 
             val newFragment: DatePickerFragment = DatePickerFragment("EndDate")
             // set the targetFragment to receive the results, specifying the request code
@@ -96,5 +151,39 @@ class CourseSearchFragment : Fragment() {
                 txtEndDate.setText(selectedDate)
         }
     }
+
+    companion object {
+        /**
+         * Use this factory method to create a new instance of
+         * this fragment using the provided parameters.
+         *
+         * @param param1 Parameter 1.
+         * @param param2 Parameter 2.
+         * @return A new instance of fragment sample.
+         */
+        // TODO: Rename and change types and number of parameters
+        @JvmStatic
+        fun newInstance(param1: String, param2: String) =
+            CourseSearchFragment().apply {
+                arguments = Bundle().apply {
+                    putString(ARG_PARAM1, param1)
+                    putString(ARG_PARAM2, param2)
+                }
+            }
+    }
+
+
+
+   /* fun setCategorySpinner(view: View,context: Context)
+    {
+        val lstCategory = view.findViewById(R.id.lstCategory)
+        val adapter = ArrayAdapter.createFromResource(
+            context, R.array.category,
+            R.layout.fragment_course_search)
+
+        adapter.setDropDownViewResource(R.layout.fragment_course_search)
+        lstCategory.setAdapter(adapter)
+        lstCategory.setOnItemSelectedListener(view)
+    }*/
 
 }

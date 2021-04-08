@@ -1,8 +1,16 @@
 package com.srs.lms.model
 
+
+data class EnrolledCourseSessions
+    (
+    var result:List<EnrolledCourseSession>
+            )
+
 data class EnrolledCourseSession (
-    var enrollmentId:Int,
+
+    var id:Int,
     var sessionId:Int,
+
     var courseId:Int,
     var courseName:String,
     var courseCategory:String,

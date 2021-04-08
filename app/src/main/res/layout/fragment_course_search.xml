@@ -25,7 +25,7 @@
             android:padding="20dp"/>
 
         <EditText
-            android:id="@+id/editTextTextPersonName"
+            android:id="@+id/txtCourseName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/lblcoursename"
@@ -90,7 +90,7 @@
             android:padding="20dp"
             />
         <Spinner
-            android:id="@+id/lstCateory"
+            android:id="@+id/lstCategory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:entries="@array/category"
